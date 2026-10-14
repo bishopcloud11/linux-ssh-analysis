@@ -1,0 +1,67 @@
+Linux SSH Log Analysis Using Splunk
+Project Overview
+This project investigates Linux SSH authentication logs using Splunk. It focuses on identifying successful and failed password authentication attempts and developing basic security event investigation skills.
+Objectives
+• Generate and collect SSH authentication logs from Kali Linux.
+• Ingest logs into Splunk Enterprise.
+• Search for successful and failed authentication attempts.
+• Practise Splunk Search Processing Language (SPL).
+• Summarise events and document findings.
+• Understand basic authentication monitoring from a SOC analyst’s perspective.
+Lab Environment
+• Operating System: Kali Linux
+• Log Source: SSH service authentication logs
+• SIEM: Splunk Enterprise
+• Virtualisation: VirtualBox
+Investigation
+1. Failed Password Attempts
+index=main "Failed password"
+Purpose: Search for SSH authentication events containing failed password attempts.
+2. Successful Password Authentication
+index=main "Accepted password"
+Purpose: Search for SSH authentication events containing successful password logins.
+3. Using AND to Filter Events
+index=main "Failed password" AND "invalid user"
+Purpose: Find events containing both failed-password and invalid-user messages.
+4. Using OR to Search Multiple Event Types
+index=main "Failed password" OR "Accepted password"
+Purpose: Search for events containing either failed-password or successful-password messages.
+5. Counting Failed Events by Host
+index=main "Failed password"
+| stats count by host
+Purpose: Count matching failed-password events for each host.
+6. Sorting Results in Descending Order
+index=main "Failed password"
+| stats count by host
+| sort -count
+Purpose: Display hosts with the highest number of matching failed-password events first.
+7. Sorting Results in Ascending Order
+index=main "Failed password"
+| stats count by host
+| sort +count
+Purpose: Display hosts with the lowest number of matching failed-password events first.
+Key Learnings
+• Identifying successful and failed SSH authentication events.
+• Using AND and OR to combine search conditions.
+• Understanding the pipe symbol (|) in SPL.
+• Using stats to count and summarise events.
+• Grouping events by host.
+• Sorting results in ascending and descending order.
+• Understanding how authentication logs can support security investigations.
+Findings
+The lab provides a practical way to examine successful and failed SSH authentication events. These event types can help an analyst identify activity that may require further investigation.
+Failed login attempts alone do not prove malicious activity. Additional context, such as the source IP address, username, event timestamps and subsequent successful logins, is needed to assess whether activity is suspicious.
+Challenges and Troubleshooting
+• Configuring SSH log collection in the Kali Linux environment.
+• Transferring the generated log file through a VirtualBox shared folder.
+• Ingesting the log file into Splunk.
+• Investigating changes in event counts and possible duplicate ingestion.
+Next Steps
+• Investigate duplicate event ingestion and validate event counts.
+• Explore extracted fields such as usernames and source IP addresses.
+• Investigate repeated failed attempts and successful logins following failures.
+• Build a Windows SSH log analysis project.
+• Improve SPL skills and develop more detailed security investigation reports.
+
+Disclaimer
+This project was conducted in a learning lab for defensive security education. The findings describe the available lab data and do not, by themselves, establish malicious activity.
